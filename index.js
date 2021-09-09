@@ -6,10 +6,6 @@ const bodyParser = require('body-parser')
 
 app.use(bodyParser.json()); // for parsing application/json
 
-const authRoute = require('./auth/authRoute.js');
-const signUpRoute = require('./auth/signUp.js');
-const loginRoute = require('./auth/login.js');
-const uspRoute = require('./auth/userSpecificRes.js');
 
 //////// Pre Processing Functions.  ////////
 
@@ -27,12 +23,23 @@ app.use((req, res, next) => {
 ///////////////
 
 
+//// Adding modules(routes) from route directory to application //////
+const fs = require('fs');
+function mountModulesSync(application) {
+  let rootPath = './routes'
+  let files = fs.readdirSync(rootPath);
 
-app.use(authRoute)
+  for (let i = 0; i < files.length; i++) {
+    let filePath = rootPath + '/' + files[i];
 
-app.use('/', signUpRoute)
-app.use('/', loginRoute)
-app.use('/', uspRoute)
+    application.use('/', require(filePath));
+  }
+}
+
+mountModulesSync(app);
+
+/////////////////////////////////////////
+
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
