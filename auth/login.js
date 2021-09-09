@@ -1,0 +1,70 @@
+const express = require('express')
+const router = express.Router()
+const _ = require('lodash')
+const db = require('../DBModule/index.js');
+
+const Route = require('../lib/Route.js');
+const jwt = require('jsonwebtoken');
+
+let route = new Route();
+route.setPublic();
+
+// authenticate
+route.addMiddleWare((req, res, next) => {
+  let isAuthorized = Route.isUserAuthorized(res, route);
+  console.log(isAuthorized);
+
+  if(isAuthorized === false) {
+    res.send({'message': 'User is not authorize.'})
+  }
+  else {
+    next();
+  }
+});
+
+route.addMiddleWare((req, res, next) => {
+  let user = {
+    email: req.body.email,
+    password: req.body.password
+  };
+  res.locals.user = user;
+  next();
+});
+
+// validate user 
+route.addMiddleWare((req, res, next) => {
+  let user = res.locals.user;
+  if(!_.find(db.users, user)) {
+    res.send({
+      'message': 'Email and Password combination is incorrect.'
+    });
+  }
+  else {
+    next();
+  }
+});
+
+
+route.addMiddleWare((req, res, next) => {
+  let user = res.locals.user;
+  user.role = 'SUPER_ADMIN';
+  let token = jwt.sign(user, 'shhhhh');
+  res.locals.token = token;
+  next();
+});
+
+
+route.addMiddleWare((req, res, next) => {
+  let token = res.locals.token;
+
+  res.send({
+    'token': token,
+  })
+  next();
+});
+
+
+
+router.post('/', route.getMiddleWareList());
+
+module.exports = router
