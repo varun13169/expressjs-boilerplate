@@ -1,8 +1,9 @@
 const _ = require('lodash')
 const db = require('../DBModule/index.js');
 
+
+const auth = require('../lib/Auth.js');
 const Route = require('../lib/Route.js');
-const jwt = require('jsonwebtoken');
 
 let route = new Route('POST', '/login');
 route.setPublic();
@@ -45,7 +46,7 @@ route.addMiddleWare((req, res, next) => {
 route.addMiddleWare((req, res, next) => {
   let user = res.locals.user;
   user.role = 'SUPER_ADMIN';
-  let token = jwt.sign(user, 'shhhhh');
+  let token = auth.getToken(user);
   res.locals.token = token;
   next();
 });

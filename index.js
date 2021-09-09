@@ -14,11 +14,11 @@ const uspRoute = require('./auth/userSpecificRes.js');
 //////// Pre Processing Functions.  ////////
 
 // Adding decoded User data here
-const jwt = require('jsonwebtoken');
+const auth = require('./lib/Auth.js');
 const _ = require('lodash');
 app.use((req, res, next) => {
   if(_.has(req.headers, 'token')) {
-    let decoded = jwt.verify(req.headers.token, 'shhhhh');
+    let decoded = auth.decodeToken(req.headers.token);
     res.locals.authUserInfo = decoded
   }
   next();
