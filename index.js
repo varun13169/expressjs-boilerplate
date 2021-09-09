@@ -30,9 +30,9 @@ app.use((req, res, next) => {
 
 app.use(authRoute)
 
-app.use('/signup', signUpRoute)
-app.use('/login', loginRoute)
-app.use('/user-specific-res', uspRoute)
+app.use('/', signUpRoute)
+app.use('/', loginRoute)
+app.use('/', uspRoute)
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
