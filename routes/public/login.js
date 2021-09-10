@@ -44,11 +44,12 @@ route.addMiddleWare((req, res, next) => {
 route.addMiddleWare((req, res, next) => {
   let user = res.locals.user;
   user.role = 'SUPER_ADMIN';
-  let token = auth.getToken(user);
-  res.locals.token = token;
-  next();
+  auth.getToken(user)
+  .then((token) => {
+    res.locals.token = token;
+    next();
+  });
 });
-
 
 route.addMiddleWare((req, res, next) => {
   let token = res.locals.token;
