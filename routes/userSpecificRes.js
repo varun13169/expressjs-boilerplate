@@ -1,7 +1,7 @@
 const _ = require('lodash')
 const Route = require('lib/Route.js');
 
-let route = new Route('POST', '/user-specific-res');
+let route = new Route('GET', '/user-specific-res');
 route.setAuthUsers(['SUPER_ADMIN'])
 
 route.addMiddleWare((req, res, next) => {
