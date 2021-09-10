@@ -1,5 +1,5 @@
-const Route = require('../lib/Route.js');
 const _ = require('lodash')
+const Route = require('lib/Route.js');
 
 let route = new Route('POST', '/user-specific-res');
 route.setAuthUsers(['SUPER_ADMIN'])
@@ -23,9 +23,7 @@ route.addMiddleWare((req, res, next) => {
 // decode the token
 route.addMiddleWare((req, res, next) => {
   let authUserInfo = res.locals.authUserInfo;
-
-  res.send({'decoded': authUserInfo})
-  next();
+  res.send({'decoded': authUserInfo});
 });
 
 module.exports = route.getRouter();

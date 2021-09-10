@@ -1,6 +1,6 @@
 const _ = require('lodash')
-var db = require('../DBModule/index.js');
-const Route = require('../lib/Route.js');
+const db = require('db/db.js');
+const Route = require('lib/Route.js');
 
 let route = new Route('POST', '/signup');
 route.setPublic();
