@@ -12,7 +12,7 @@ app.use(bodyParser.json()); // for parsing application/json
 app.use(utils.addAuthInfoToReq);
 
 // Adding modules(routes) from route directory to application
-utils.mountModulesSync(app);
+utils.mountModulesSync('routes' ,app);
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
