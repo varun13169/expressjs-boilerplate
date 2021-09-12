@@ -4,6 +4,7 @@ const Route = require('lib/Route.js');
 let route = new Route('GET', '/user-specific-res');
 route.setAuthUsers(['SUPER_ADMIN'])
 
+// validate user authorization
 route.addMiddleWare((req, res, next) => {
   let isAuthorized = Route.isUserAuthorized(res, route);
 
