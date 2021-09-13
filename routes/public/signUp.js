@@ -19,18 +19,6 @@ route.setValidBodySchemaModel({
   additionalProperties: false,
 });
 
-// checking if user is authorized
-route.addMiddleWare((req, res, next) => {
-  let isAuthorized = Route.isUserAuthorized(res, route);
-
-  if(isAuthorized === false) {
-    res.send({'message': 'User is not authorize.'})
-  }
-  else {
-    next();
-  }
-});
-
 // creating user obj and adding to locals
 route.addMiddleWare((req, res, next) => {
   let body = req.body;

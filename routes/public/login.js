@@ -18,18 +18,6 @@ route.setValidBodySchemaModel({
   additionalProperties: false,
 });
 
-// authenticate
-route.addMiddleWare((req, res, next) => {
-  let isAuthorized = Route.isUserAuthorized(res, route);
-
-  if(isAuthorized === false) {
-    res.send({'message': 'User is not authorize.'});
-  }
-  else {
-    next();
-  }
-});
-
 // add user details to locals
 route.addMiddleWare((req, res, next) => {
   let user = {
@@ -77,7 +65,7 @@ route.addMiddleWare((req, res, next) => {
 // send token as response
 route.addMiddleWare((req, res, next) => {
   let token = res.locals.token;
-  console.log(token)
+
   res.send({
     'token': token,
   })
