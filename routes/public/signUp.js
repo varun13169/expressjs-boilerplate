@@ -5,6 +5,20 @@ const Route = require('lib/Route.js');
 let route = new Route('POST', '/signup');
 route.setPublic();
 
+// validate body schema
+route.setValidBodySchemaModel({
+  type: 'object',
+  properties: {
+    firstName: {type: 'string'},
+    lastName: {type: 'string'},
+    email: {type: 'string'},
+    password: {type: 'string'},
+    role: {type: 'string'},
+  },
+  required: ['firstName', 'lastName', 'email', 'password', 'role'],
+  additionalProperties: false,
+});
+
 // checking if user is authorized
 route.addMiddleWare((req, res, next) => {
   let isAuthorized = Route.isUserAuthorized(res, route);

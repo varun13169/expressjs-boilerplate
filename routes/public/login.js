@@ -6,6 +6,18 @@ const userComponent = require('components/user');
 let route = new Route('POST', '/login');
 route.setPublic();
 
+// validate body schema
+route.setValidBodySchemaModel({
+  type: 'object',
+  properties: {
+    email: {type: 'string'},
+    password: {type: 'string'},
+    role: {type: 'string'},
+  },
+  required: ['email', 'password', 'role'],
+  additionalProperties: false,
+});
+
 // authenticate
 route.addMiddleWare((req, res, next) => {
   let isAuthorized = Route.isUserAuthorized(res, route);
@@ -65,6 +77,7 @@ route.addMiddleWare((req, res, next) => {
 // send token as response
 route.addMiddleWare((req, res, next) => {
   let token = res.locals.token;
+  console.log(token)
   res.send({
     'token': token,
   })
