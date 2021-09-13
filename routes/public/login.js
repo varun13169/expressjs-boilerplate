@@ -47,7 +47,8 @@ route.addMiddleWare((req, res, next) => {
         };
       next();
     }
-  });
+  })
+  .catch(next);
 });
 
 // generate token
@@ -57,7 +58,8 @@ route.addMiddleWare((req, res, next) => {
   .then((token) => {
     res.locals.token = token;
     next();
-  });
+  })
+  .catch(next);
 });
 
 // send token as response

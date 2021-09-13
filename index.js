@@ -21,6 +21,11 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
+// for custom error handler middeware
+app.use((err, req, res, next) => {
+  next(err);
+});
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })

@@ -52,11 +52,7 @@ route.addMiddleWare((req, res, next) => {
       next();
     }
   })
-  .catch((err) => {
-    res.send({
-      'err': err,
-    })
-  })  
+  .catch(next);
 });
 
 // adding user to the database
@@ -69,11 +65,7 @@ route.addMiddleWare((req, res, next) => {
       'user': addedUser,
     });
   })
-  .catch((err) => {
-    res.send({
-      'err': err,
-    })
-  })
+  .catch(next);
   
 })
 
