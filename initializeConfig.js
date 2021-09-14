@@ -1,4 +1,11 @@
 const mongoose = require('mongoose');
+const env = process.env.NODE_ENV || 'development';
+const config = require('./config')[env];
+console.log(config)
+
+let mdbUname = config.database.mongodb.mdbUname;
+let mdbPass = config.database.mongodb.mdbPass;
+let mdbCluster = config.database.mongodb.mdbCluster;
 
 const mongodbUri = `mongodb+srv://${mdbUname}:${mdbPass}@${mdbCluster}.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 

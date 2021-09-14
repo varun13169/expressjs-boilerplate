@@ -12,7 +12,10 @@ route.setValidBodySchemaModel({
   properties: {
     email: {type: 'string'},
     password: {type: 'string'},
-    role: {type: 'string'},
+    role: {
+      type: 'string',
+      enum: ['ADMIN', 'SUPER_ADMIN', 'CUSTOMER']
+    },
   },
   required: ['email', 'password', 'role'],
   additionalProperties: false,
