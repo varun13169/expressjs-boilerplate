@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const fs = require('fs');
-const auth = require('lib/auth.js');
+const auth = require('./auth.js');
 
 const utils = {};
 

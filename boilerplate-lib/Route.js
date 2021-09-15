@@ -6,7 +6,7 @@ const ajv = new Ajv();
 
 const validMethods = ['post', 'get', 'put', 'delete']
 
-const Route = function(method, path) {
+const Route = function(method, path, authUserTypes) {
   // Check for valid type
   if(_.isString(method) === true) {
     // lowercase the input
@@ -19,6 +19,7 @@ const Route = function(method, path) {
 
   this.method = method;
   this.path = path;
+  this.authUserTypes = authUserTypes;
   this.isPublic = false;
   this.authUserList = [];
   this.middlewareList = [];
@@ -58,8 +59,15 @@ Route.prototype.setPublic = function() {
  * @return {Route} route instance.
  */
 Route.prototype.setAuthUsers = function(authUserList) {
+  // check if param is an array
   if(_.isArray(authUserList) == false) {
     throw new Error('User List is not an array.');
+  }
+  // validate if array is valid user type
+  let a = _.difference(authUserList, this.authUserTypes)
+  if(a.length !== 0) {
+    console.log(a)
+    throw new Error('Invalid User in User List. Following user not fount in allowed usertypes' + a);
   }
   this.authUserList = authUserList;
 }
