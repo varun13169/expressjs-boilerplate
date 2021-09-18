@@ -15,3 +15,7 @@ Add depencies along with your project
 Install all dependencies (including submodule)
 
 	npm install
+
+
+## Example app for expressJs boilerplate submodule using mongodb
+expressjs_boilerplate: [Small Example using the submodule](https://github.com/varun13169/expressjs-boilerplate-example)
