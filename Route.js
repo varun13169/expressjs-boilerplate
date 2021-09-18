@@ -23,6 +23,7 @@ const Route = function(method, path, authUserTypes) {
   this.isPublic = false;
   this.authUserList = [];
   this.middlewareList = [];
+  this.validHeadersSchemaModel = null;
   this.validBodySchemaModel = null;
   this.validQuerySchemaModel = null;
   this.validParamsSchemaModel = null;
@@ -73,6 +74,19 @@ Route.prototype.setAuthUsers = function(authUserList) {
 }
 
 /**
+ * Set schema to validate headers.
+ *
+ * @param {Object} schema - schema obj.
+ * @return {Route} route instance.
+ */
+ Route.prototype.setValidHeadersSchemaModel = function(schema) {
+  if(_.isObject(schema) === false) {
+    throw new Error('Schema not an object.');
+  }
+  this.validHeadersSchemaModel = ajv.compile(schema);
+}
+
+/**
  * Set schema to validate body.
  *
  * @param {Object} schema - schema obj.
@@ -119,6 +133,10 @@ Route.prototype.setValidParamsSchemaModel = function(schema) {
 Route.prototype.getRouter = function() {
   let helperMiddlewares = [];
 
+  // validate headers
+  if(this.validHeadersSchemaModel !== null) {
+    helperMiddlewares.push(_.partial(validateSchema, this.validHeadersSchemaModel, 'headers'));
+  }
   // validate body
   if(this.validBodySchemaModel !== null) {
     helperMiddlewares.push(_.partial(validateSchema, this.validBodySchemaModel, 'body'));
